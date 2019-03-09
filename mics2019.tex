@@ -1,0 +1,136 @@
+ % This is sigproc-sp.tex -FILE FOR V2.6SP OF ACM_PROC_ARTICLE-SP.CLS
+% OCTOBER 2002
+%
+% It is an example file showing how to use the 'acm_proc_article-sp.cls' V2.6SP
+% LaTeX2e document class file for Conference Proceedings submissions.
+%
+%----------------------------------------------------------------------------------------------------------------
+% This .tex file (and associated .cls V2.6SP) *DOES NOT* produce:
+%     1) The Permission Statement
+%     2) The Conference (location) Info information
+%     3) The Copyright Line with ACM data
+%     4) Page numbering
+%
+% However, both the CopyrightYear (default to 2002) and the ACM Copyright Data
+% (default to X-XXXXX-XX-X/XX/XX) can still be over-ridden by whatever the author
+% inserts into the source .tex file.
+% e.g.
+% \CopyrightYear{2003} will cause 2003 to appear in the copyright line.
+% \crdata{0-12345-67-8/90/12} will cause 0-12345-67-8/90/12 to appear in the copyright line.
+%
+%
+%---------------------------------------------------------------------------------------------------------------
+% It is an example which *does* use the .bib file (from which the .bbl file
+% is produced).
+% REMEMBER HOWEVER: After having produced the .bbl file,
+% and prior to final submission,
+% you need to 'insert' your .bbl file into your source .tex file so as to provide
+% ONE 'self-contained' source file.
+%
+% Questions regarding SIGS should be sent to
+% Adrienne Griscti ---> griscti@acm.org
+%
+% Questions/suggestions regarding the guidelines, .tex and .cls files, etc. to
+% Gerald Murray ---> murray@acm.org
+%
+% For tracking purposes - this is V2.6SP - OCTOBER 2002
+
+
+\documentclass[12pt]{article}
+
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\textwidth}{6in}
+\setlength{\textheight}{9in}
+\setlength{\parindent}{0in}
+
+\usepackage{graphicx} %For jpg figure inclusion
+\usepackage{times} %For typeface
+\usepackage{epsfig}
+\usepackage{color} %For Comments
+%\usepackage[all]{xy}
+\usepackage{float}
+%\usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{parskip}
+
+%% Elena's favorite green (thanks, Fernando!)
+\definecolor{ForestGreen}{RGB}{34,139,34}
+\definecolor{BlueViolet}{RGB}{138,43,226}
+\definecolor{Coquelicot}{RGB}{255, 56, 0}
+\definecolor{Teal}{RGB}{2,132,130}
+%Uncomment this if you want to show work-in-progress comments
+\newcommand{\comment}[1]{{\bf \tt  {#1}}}
+% Uncomment this if you don't want to show comments
+%\newcommand{\comment}[1]{}
+\newcommand{\emcomment}[1]{\textcolor{ForestGreen}{\comment{Elena: {#1}}}}
+\newcommand{\todo}[1]{\textcolor{blue}{\comment{To Do: {#1}}}}
+\newcommand{\tscomment}[1]{\textcolor{Teal}{\comment{Tony: {#1}}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\pagestyle{plain}
+%
+% --- Author Metadata here ---
+%\conferenceinfo{WOODSTOCK}{'97 El Paso, Texas USA}
+%\setpagenumber{50}
+%\CopyrightYear{2002} % Allows default copyright year (2002) to be
+%over-ridden - IF NEED BE.
+%\crdata{0-12345-67-8/90/01}  % Allows default copyright data
+%(X-XXXXX-XX-X/XX/XX) to be over-ridden.
+% --- End of Author Metadata ---
+
+\title{A system for improving beginner-level error messages in Clojure}
+%\subtitle{[Extended Abstract \comment{DO WE NEED THIS?}]
+%\titlenote{}}
+%
+% You need the command \numberofauthors to handle the "boxing"
+% and alignment of the authors under the title, and to add
+% a section for authors number 4 through n.
+%
+% Up to the first three authors are aligned under the title;
+% use the \alignauthor commands below to handle those names
+% and affiliations. Add names, affiliations, addresses for
+% additional authors as the argument to \additionalauthors;
+% these will be set for you without further effort on your
+% part as the last section in the body of your article BEFORE
+% References or any Appendices.
+
+\author{
+Ethan Uphoff, Dexter An, Elena Machkasova \\
+Computer Science Discipline \\
+University of Minnesota Morris\\
+Morris, MN 56267\\
+@morris.umn.edu, @morris.umn.edu, elenam@morris.umn.edu
+}
+\maketitle
+\thispagestyle{empty}
+%\alcomment{Should these say @morris.umn.edu?}
+
+\section*{\centering Abstract}
+
+
+\newpage
+\setcounter{page}{1}
+
+\section{Introduction}
+\emcomment{This is just copied from the google doc}
+Clojure is a Lisp programming language which runs on the Java Virtual Machine. As it is a Lisp language it has a simpler syntax than many other programming languages such as C and Java. Since Clojure is very simple and runs on the JVM, it would be ideal to teach in an introductory level programing course as the JVM is widely used in subsequent courses. Clojure has one major flaw that stands out above the rest though, its error messages. Clojure suffers from error messages which can be difficult for even the most experienced of programmers to understand. Since these error messages are difficult to interpret, it would not be a good idea to teach Clojure to introductory level classes without some way of modifying the error messages it produces. 
+This is a continuation of previous research done at the University of Minnesota Morris. Past research on this issue developed solutions for different aspects of this problem but, until now, these different approaches haven’t been integrated into one system that works with Clojure ecosystem. Our new system is integrated into Clojure as middleware and has improved how we access error messages compared to the previous systems, though still makes use of nREPL. The nREPL is a tool to interact with the Clojure interpreter which allows users to run and evaluate their code. Additional tooling which has become available in new versions of Clojure have resulted in higher accuracy of the error message processing. 
+As of Clojure 1.9.0, Clojure Spec became available in Clojure Core. Clojure Spec is a system of contracts which functions must follow before running. Spec checks that all the variables in a function correspond with the spec written for it. This means spec can check anything from general things like the type of the variables to making sure a variable isn’t zero. Since spec can be very specific in its requirements, specs can be made in a way to improve the amount of information given in the error message. 
+When the system runs, it first loads specs then runs the program with the middleware. The middleware checks if there is an error. If there is an error then the middleware will send the error to the processing, if there is no error it outputs as normal. When the middleware receives an error it will extract all the data from an error in the form of an error object. Once the middleware gets this object it can use its data to replace the error message with the new processed error message produced from either spec, or if spec is not applicable, a standard error. This means errors will be processed properly, even if Clojure updates, as long as the error object in Clojure nREPL sessions does not change.  
+In addition to the changes with the middleware and Clojure Spec, the testing for the processed errors has changed and now includes a logging system to assist error message developers. Our own test logging system has been made to easily track the outputs. The test results are recorded as HTML files in which the developers can see the effect of their changes and find parts that need to be fixed. The technical aspect of the logging system is the way to retrieve the information from the nREPL not only after but also before going through our middleware, therefore we can record both the original and modified error messages and output them side-by-side for comparison.
+The demo will show the modified error messages compared to the error messages in Clojure without processing. It will also include a demo of the logging system.
+
+
+\section{Acknowledgments}
+The work was supported in part by Morris Academic Partnership (MAP) stipend at UMN Morris.
+
+\bibliographystyle{acm}
+\bibliography{mics2019}
+
+\end{document}
