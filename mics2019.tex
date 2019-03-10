@@ -130,7 +130,7 @@ The demo will show the modified error messages compared to the error messages in
 Middleware
 
 \section{Clojure 1.10}
-Macro errors
+In Clojure 1.10 error messages were changed extensively. One of the biggest changes to our system which took place is the processing of Macro errors. Macro errors in Clojure 1.9 and before had the same data linked to them as errors for functions without specs. This meant we could process them as we would any other normal error. In Clojure 1.10 the processing changed because the data linked to macro errors changed extensively. The error object for macro errors now consists of of two errors, the first of the errors contains the new error data while the second error contains the data which would have shown up in Clojure 1.9 and before. The new data found in the Clojure 1.10 error gives more accurate stacktrace information than normal errors give allowing us to use both of the errors in the error object for error processing. We get the advantage of better stacktrace processing with the advantage of being able to use our error processing.
 
 \section{Clojure Spec}
 Spec
