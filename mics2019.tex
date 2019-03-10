@@ -119,7 +119,16 @@ Morris, MN 56267\\
 
 \section{Introduction}
 %\emcomment{This is just copied from the google doc}
-Clojure is a Lisp programming language which runs on the Java Virtual Machine. As it is a Lisp language it has a simpler syntax than many other programming languages such as C and Java. Since Clojure is very simple and runs on the JVM, it would be ideal to teach in an introductory level programing course as the JVM is widely used in subsequent courses. Clojure has one major flaw that stands out above the rest though, its error messages. Clojure suffers from error messages which can be difficult for even the most experienced of programmers to understand. Since these error messages are difficult to interpret, it would not be a good idea to teach Clojure to introductory level classes without some way of modifying the error messages it produces. 
+Clojure is a Lisp programming language which runs on the Java Virtual Machine. It was developed and released in 2008 by Rich Hickey~\cite{Hickey:2008} and has gained 
+wide popularity around the world since then. It is in Lisp category of languages, and has simple syntax typical of Lisp languages. As a Lisp, it was specifically designed to support
+immutability, with an additional benefit of providing support for parallel processing. 
+
+Since Clojure is very simple in its syntax and immutability-based semantics and runs on the JVM, it would be ideal to teach in an introductory level programing course, similar to 
+the Racket-based Beginner Student languages, also in a Lisp category~\cite{{htdp}.
+The simplicity allows focus on functional decomposition, and the use of the JVM provides a connection to subsequent Java-based courses. 
+
+\emcomment{This is still just a copy/paste:}
+Clojure has one major flaw that stands out above the rest though, its error messages. Clojure suffers from error messages which can be difficult for even the most experienced of programmers to understand. Since these error messages are difficult to interpret, it would not be a good idea to teach Clojure to introductory level classes without some way of modifying the error messages it produces. 
 This is a continuation of previous research done at the University of Minnesota Morris. Past research on this issue developed solutions for different aspects of this problem but, until now, these different approaches haven’t been integrated into one system that works with Clojure ecosystem. Our new system is integrated into Clojure as middleware and has improved how we access error messages compared to the previous systems, though still makes use of nREPL. The nREPL is a tool to interact with the Clojure interpreter which allows users to run and evaluate their code. Additional tooling which has become available in new versions of Clojure have resulted in higher accuracy of the error message processing. 
 As of Clojure 1.9.0, Clojure Spec became available in Clojure Core. Clojure Spec is a system of contracts which functions must follow before running. Spec checks that all the variables in a function correspond with the spec written for it. This means spec can check anything from general things like the type of the variables to making sure a variable isn’t zero. Since spec can be very specific in its requirements, specs can be made in a way to improve the amount of information given in the error message. 
 When the system runs, it first loads specs then runs the program with the middleware. The middleware checks if there is an error. If there is an error then the middleware will send the error to the processing, if there is no error it outputs as normal. When the middleware receives an error it will extract all the data from an error in the form of an error object. Once the middleware gets this object it can use its data to replace the error message with the new processed error message produced from either spec, or if spec is not applicable, a standard error. This means errors will be processed properly, even if Clojure updates, as long as the error object in Clojure nREPL sessions does not change.  
@@ -127,7 +136,9 @@ In addition to the changes with the middleware and Clojure Spec, the testing for
 The demo will show the modified error messages compared to the error messages in Clojure without processing. It will also include a demo of the logging system.
 
 \section{Modifying Error Messages}
-Middleware
+
+
+\todo{Middleware}
 
 \section{Clojure 1.10}
 In Clojure 1.10 error messages were changed extensively. One of the biggest changes to our system which took place is the processing of Macro errors. Macro errors in Clojure 1.9 and before had the same data linked to them as errors for functions without specs. This meant we could process them as we would any other normal error. In Clojure 1.10 the processing changed because the data linked to macro errors changed extensively. The error object for macro errors now consists of of two errors, the first of the errors contains the new error data while the second error contains the data which would have shown up in Clojure 1.9 and before. The new data found in the Clojure 1.10 error gives more accurate stacktrace information than normal errors give allowing us to use both of the errors in the error object for error processing. We get the advantage of better stacktrace processing with the advantage of being able to use our error processing.
@@ -141,7 +152,7 @@ Errors
 \section{Acknowledgments}
 The work was supported in part by Morris Academic Partnership (MAP) stipend at UMN Morris.
 
-%\bibliographystyle{acm}
-%\bibliography{mics2019}
+\bibliographystyle{acm}
+\bibliography{mics2019}
 
 \end{document}
