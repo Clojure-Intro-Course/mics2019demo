@@ -126,6 +126,17 @@ When the system runs, it first loads specs then runs the program with the middle
 In addition to the changes with the middleware and Clojure Spec, the testing for the processed errors has changed and now includes a logging system to assist error message developers. Our own test logging system has been made to easily track the outputs. The test results are recorded as HTML files in which the developers can see the effect of their changes and find parts that need to be fixed. The technical aspect of the logging system is the way to retrieve the information from the nREPL not only after but also before going through our middleware, therefore we can record both the original and modified error messages and output them side-by-side for comparison.
 The demo will show the modified error messages compared to the error messages in Clojure without processing. It will also include a demo of the logging system.
 
+\section{Modifying Error Messages}
+Middleware
+
+\section{Clojure 1.10}
+Macro errors
+
+\section{Clojure Spec}
+Spec
+
+\section{Logging Errors}
+Errors
 
 \section{Acknowledgments}
 The work was supported in part by Morris Academic Partnership (MAP) stipend at UMN Morris.
