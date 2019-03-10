@@ -133,7 +133,7 @@ Middleware
 In Clojure 1.10 error messages were changed extensively. One of the biggest changes to our system which took place is the processing of Macro errors. Macro errors in Clojure 1.9 and before had the same data linked to them as errors for functions without specs. This meant we could process them as we would any other normal error. In Clojure 1.10 the processing changed because the data linked to macro errors changed extensively. The error object for macro errors now consists of of two errors, the first of the errors contains the new error data while the second error contains the data which would have shown up in Clojure 1.9 and before. The new data found in the Clojure 1.10 error gives more accurate stacktrace information than normal errors give allowing us to use both of the errors in the error object for error processing. We get the advantage of better stacktrace processing with the advantage of being able to use our error processing.
 
 \section{Clojure Spec}
-Spec
+Clojure Spec is an integral part of how our processing works. Clojure spec allows users to write specs for functions which gives us more information in the error object when the error occurs. Spec errors say what function the error occured for, what value caused the error, where the error occured in the code, and what the values should be. Spec errors are also almost always in the same format which allows us to put the error data in a template simplifying the code for processing errors. Spec errors can also be specially made to restrict certain inputs even if they are allowed. So when workgin with beginning level students there may be some things which a professor may want to restrict their students from doing which spec allows.
 
 \section{Logging Errors}
 Errors
