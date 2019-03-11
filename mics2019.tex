@@ -68,6 +68,7 @@
 % Uncomment this if you don't want to show comments
 %\newcommand{\comment}[1]{}
 \newcommand{\emcomment}[1]{\textcolor{ForestGreen}{\comment{Elena: {#1}}}}
+\newcommand{\eucomment}[1]{\textcolor{red}{\comment{Ethan: {#1}}}}
 \newcommand{\todo}[1]{\textcolor{blue}{\comment{To Do: {#1}}}}
 \newcommand{\tscomment}[1]{\textcolor{Teal}{\comment{Tony: {#1}}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,7 +106,7 @@ Ethan Uphoff, Dexter An, Elena Machkasova \\
 Computer Science Discipline \\
 University of Minnesota Morris\\
 Morris, MN 56267\\
-@morris.umn.edu, @morris.umn.edu, elenam@morris.umn.edu
+uphof012@morris.umn.edu, anxxx154@morris.umn.edu, elenam@morris.umn.edu
 }
 \maketitle
 \thispagestyle{empty}
@@ -136,15 +137,37 @@ In addition to the changes with the middleware and Clojure Spec, the testing for
 The demo will show the modified error messages compared to the error messages in Clojure without processing. It will also include a demo of the logging system.
 
 \section{Modifying Error Messages}
+The modification of error messages in this research has changed substatially over the last year due to changes on how the errors are accessed. 
+Previous work on the modification of error messages would recieve the error using middleware as text.
+This process would give us just the error message with no stack trace which meant we could use our error processing to modify the error message but we couldn't give line numbers.
+The new method continues to use middleware but makes use of nREPL sessions to directly access the error object.
+The error object varies bewtween errrors. 
+Most errors will just have information on the exception type, the error message, and the stacktrace though there are some which have more information such as spec errors and macro errors.
+This new process allows us to have modified error message as well as stacktrace.
+This expanded our ability to modify errors as well for spec and macro errors.
 
+\eucomment{Should Middleware be its own section or be part of Modifying Error Messages?}
 
 \todo{Middleware}
 
+
 \section{Clojure Spec}
-Clojure Spec is an integral part of how our processing works. Clojure spec allows users to write specs for functions which gives us more information in the error object when the error occurs. Spec errors say what function the error occurred for, what value caused the error, where the error occurred in the code, and what the values should be. Spec errors are also almost always in the same format which allows us to put the error data in a template simplifying the code for processing errors. Spec errors can also be specially made to restrict certain inputs even if they are allowed. So when working with beginning level students there may be some things which a professor may want to restrict their students from doing which spec allows.
+Clojure Spec is an integral part of how our processing works. 
+Clojure spec allows users to write specs for functions which gives us more information in the error object when the error occurs. 
+Spec errors say what function the error occurred for, what value caused the error, where the error occurred in the code, and what the values should be. 
+Spec errors are also almost always in the same format which allows us to put the error data in a template simplifying the code for processing errors. 
+Spec errors can also be specially made to restrict certain inputs even if they are allowed. 
+So when working with beginning level students there may be some things which a professor may want to restrict their students from doing which spec allows.
 
 \section{Clojure 1.10}
-In Clojure 1.10 error messages were changed extensively. One of the biggest changes to our system which took place is the processing of Macro errors. Macro errors in Clojure 1.9 and before had the same data linked to them as errors for functions without specs. This meant we could process them as we would any other normal error. In Clojure 1.10 the processing changed because the data linked to macro errors changed extensively. The error object for macro errors now consists of of two errors, the first of the errors contains the new error data while the second error contains the data which would have shown up in Clojure 1.9 and before. The new data found in the Clojure 1.10 error gives more accurate stacktrace information than normal errors give allowing us to use both of the errors in the error object for error processing. We get the advantage of better stacktrace processing with the advantage of being able to use our error processing.
+In Clojure 1.10 error messages were changed extensively. 
+One of the biggest changes to our system which took place is the processing of Macro errors. 
+Macro errors in Clojure 1.9 and before had the same data linked to them as errors for functions without specs. 
+This meant we could process them as we would any other normal error. 
+In Clojure 1.10 the processing changed because the data linked to macro errors changed extensively. 
+The error object for macro errors now consists of of two errors, the first of the errors contains the new error data while the second error contains the data which would have shown up in Clojure 1.9 and before. 
+The new data found in the Clojure 1.10 error gives more accurate stacktrace information than normal errors give allowing us to use both of the errors in the error object for error processing. 
+We get the advantage of better stacktrace processing with the advantage of being able to use our error processing.
 
 
 \section{Logging Errors}
