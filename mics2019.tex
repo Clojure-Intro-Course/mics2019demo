@@ -151,24 +151,35 @@ name {\tt clojure.lang.Numbers.add} instead of the {\tt +} function that they ha
 If Clojure is to be used in a first programming course, these error messages need to be replaced by the kind that
 uses phrasing that reflects the terminology and notations that the students are using. 
 
+This is a continuation of previous research done at the University of Minnesota Morris with the goal of developing an introductory CS course that uses Clojure 
+as the programming language, with the two most recent summaries presented in~\cite{mics2017,mics2018}. 
+Past research on this issue developed solutions for different aspects of this problem.
+At this point our goal is to integrate different aspects of the solution into one system that works with Clojure ecosystem. 
+In this paper we describe the components of our system and how they participate in the process of modifying error messages. 
+
+\subsection{Components of the system}
+
+
+Our new system is integrated into Clojure as middleware and has improved how we access error messages compared to the previous systems, though still makes use of nREPL. The nREPL is a tool to interact with the Clojure interpreter which allows users to run and evaluate their code. Additional tooling which has become available in new versions of Clojure have resulted in higher accuracy of the error message processing. 
+
 \emcomment{This is still just a copy/paste:}
-This is a continuation of previous research done at the University of Minnesota Morris. Past research on this issue developed solutions for different aspects of this problem but, until now, these different approaches haven’t been integrated into one system that works with Clojure ecosystem. Our new system is integrated into Clojure as middleware and has improved how we access error messages compared to the previous systems, though still makes use of nREPL. The nREPL is a tool to interact with the Clojure interpreter which allows users to run and evaluate their code. Additional tooling which has become available in new versions of Clojure have resulted in higher accuracy of the error message processing. 
 As of Clojure 1.9.0, Clojure Spec became available in Clojure Core. Clojure Spec is a system of contracts which functions must follow before running. Spec checks that all the variables in a function correspond with the spec written for it. This means spec can check anything from general things like the type of the variables to making sure a variable isn’t zero. Since spec can be very specific in its requirements, specs can be made in a way to improve the amount of information given in the error message. 
 When the system runs, it first loads specs then runs the program with the middleware. The middleware checks if there is an error. If there is an error then the middleware will send the error to the processing, if there is no error it outputs as normal. When the middleware receives an error it will extract all the data from an error in the form of an error object. Once the middleware gets this object it can use its data to replace the error message with the new processed error message produced from either spec, or if spec is not applicable, a standard error. This means errors will be processed properly, even if Clojure updates, as long as the error object in Clojure nREPL sessions does not change.  
 In addition to the changes with the middleware and Clojure Spec, the testing for the processed errors has changed and now includes a logging system to assist error message developers. Our own test logging system has been made to easily track the outputs. The test results are recorded as HTML files in which the developers can see the effect of their changes and find parts that need to be fixed. The technical aspect of the logging system is the way to retrieve the information from the nREPL not only after but also before going through our middleware, therefore we can record both the original and modified error messages and output them side-by-side for comparison.
 The demo will show the modified error messages compared to the error messages in Clojure without processing. It will also include a demo of the logging system.
 
 \section{Modifying Error Messages}
-The modification of error messages in this research has changed substatially over the last year due to changes on how the errors are accessed. 
-Previous work on the modification of error messages would recieve the error using middleware as text.
+The modification of error messages in this research has changed substantially over the last year due to changes on how the errors are accessed. 
+Previous work on the modification of error messages would receive the error using middleware as text.
 This process would give us just the error message with no stack trace which meant we could use our error processing to modify the error message but we couldn't give line numbers.
 The new method continues to use middleware but makes use of nREPL sessions to directly access the error object.
-The error object varies bewtween errrors. 
+The error object varies between errors. 
 Most errors will just have information on the exception type, the error message, and the stacktrace though there are some which have more information such as spec errors and macro errors.
 This new process allows us to have modified error message as well as stacktrace.
 This expanded our ability to modify errors as well for spec and macro errors.
 
 \eucomment{Should Middleware be its own section or be part of Modifying Error Messages?}
+\emcomment{I think we need a section on components of the system}
 
 \todo{Middleware}
 
@@ -196,6 +207,11 @@ We get the advantage of better stacktrace processing with the advantage of being
 Errors
 
 \section{Acknowledgments}
+The authors thank Charlot Shaw for his work on the {\tt babel} middleware this summer and the fall. 
+This work is integral to our system. We also thank RJ Holman for his study of current Clojure errors
+for macros and developing the solution that involved regular expressions processing. 
+We thank organizers of Clojure/conj 2018 for giving us an opportunity to present a talk 
+and financial and logistical support of our participation in the conference. 
 The work was supported in part by Morris Academic Partnership (MAP) stipend at UMN Morris.
 
 \bibliographystyle{acm}
