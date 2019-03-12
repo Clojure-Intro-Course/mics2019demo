@@ -120,16 +120,38 @@ uphof012@morris.umn.edu, anxxx154@morris.umn.edu, elenam@morris.umn.edu
 
 \section{Introduction}
 %\emcomment{This is just copied from the google doc}
-Clojure is a Lisp programming language which runs on the Java Virtual Machine. It was developed and released in 2008 by Rich Hickey~\cite{Hickey:2008} and has gained 
+Clojure is a Lisp programming language which is implemented in Java and runs on the Java Virtual Machine (JVM). 
+It was developed and released in 2008 by Rich Hickey~\cite{Hickey:2008} and has gained 
 wide popularity around the world since then. It is in Lisp category of languages, and has simple syntax typical of Lisp languages. As a Lisp, it was specifically designed to support
-immutability, with an additional benefit of providing support for parallel processing. 
+immutability, with an additional benefit of providing support for parallel processing. Clojure's web counterpart, ClojureScript, has the same syntax and is used in
+client-side programming. Over the years of Clojure's existence numerous libraries have been developed for Clojure and ClojureScript either directly or by
+providing a layer over the original Java and Javascript, encompassing most areas of 
+software development.  
 
 Since Clojure is very simple in its syntax and immutability-based semantics and runs on the JVM, it would be ideal to teach in an introductory level programing course.
 The simplicity allows focus on functional decomposition, , similar to 
 the Racket-based Beginner Student languages, also in a Lisp category~\cite{htdp}, and the use of the JVM provides a connection to subsequent Java-based courses. 
+There are also extensive resources on Clojure and open source projects that students can participate in and make use of if they would like 
+to practice programming on their own after the introductory course. 
+
+Unfortunately, Clojure has a few barriers for beginners, the most problematic one being its error messages. Since Clojure is implemented in Java, 
+its error messages are just Java exceptions, and are incomprehensible to those new to programming. For instance, and attempt to add a string to an integer 
+results in a message 
+
+\noindent
+\begin{verbatim}
+ClassCastException java.lang.String cannot be cast to 
+java.lang.Number clojure.lang.Numbers.add
+\end{verbatim}
+
+\noindent 
+Beginners who are working in what they perceive as an untyped language are presented with two unfamiliar types 
+({\tt java.lang.String} and {\tt java.lang.Number}), the terms {\it casting, class}, and {\it exception}, and a function
+name {\tt clojure.lang.Numbers.add} instead of the {\tt +} function that they have used in their code. 
+If Clojure is to be used in a first programming course, these error messages need to be replaced by the kind that
+uses phrasing that reflects the terminology and notations that the students are using. 
 
 \emcomment{This is still just a copy/paste:}
-Clojure has one major flaw that stands out above the rest though, its error messages. Clojure suffers from error messages which can be difficult for even the most experienced of programmers to understand. Since these error messages are difficult to interpret, it would not be a good idea to teach Clojure to introductory level classes without some way of modifying the error messages it produces. 
 This is a continuation of previous research done at the University of Minnesota Morris. Past research on this issue developed solutions for different aspects of this problem but, until now, these different approaches haven’t been integrated into one system that works with Clojure ecosystem. Our new system is integrated into Clojure as middleware and has improved how we access error messages compared to the previous systems, though still makes use of nREPL. The nREPL is a tool to interact with the Clojure interpreter which allows users to run and evaluate their code. Additional tooling which has become available in new versions of Clojure have resulted in higher accuracy of the error message processing. 
 As of Clojure 1.9.0, Clojure Spec became available in Clojure Core. Clojure Spec is a system of contracts which functions must follow before running. Spec checks that all the variables in a function correspond with the spec written for it. This means spec can check anything from general things like the type of the variables to making sure a variable isn’t zero. Since spec can be very specific in its requirements, specs can be made in a way to improve the amount of information given in the error message. 
 When the system runs, it first loads specs then runs the program with the middleware. The middleware checks if there is an error. If there is an error then the middleware will send the error to the processing, if there is no error it outputs as normal. When the middleware receives an error it will extract all the data from an error in the form of an error object. Once the middleware gets this object it can use its data to replace the error message with the new processed error message produced from either spec, or if spec is not applicable, a standard error. This means errors will be processed properly, even if Clojure updates, as long as the error object in Clojure nREPL sessions does not change.  
